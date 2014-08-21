@@ -5,24 +5,29 @@
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>CC (X)HTML Transformer</h1>
+<div class="container">
+    <h1>CC (X)HTML Transformer</h1>
 
-<form role="form">
-    <div class="form-group">
-        <label for="linkappend">Append to all Links (do NOT include the leading ? or &amp;)</label>
-        <input id="linkappend" class="form-control" value="utm_campaign=&utm_source=cc&utm_medium=campaign&loginUserIdKey=$Subscriber.Custom.Loginkey">
-    </div>
-    <div class="form-group">
-        <textarea id="from" class="form-control" placeholder="Paste (x)html here">
-        </textarea>
-    </div>
-    <div class="form-group">
-        <button id="doit" class="btn btn-success btn-lg">Magic</button>
-    </div>
-    <div class="form-group">
-        <textarea id="to" class="form-control"></textarea>
-    </div>
-</form>
+    <form role="form">
+        <div class="form-group">
+            <label for="linkappend">Append to all Links (do NOT include the leading ? or &amp;)</label>
+            <input id="linkappend" class="form-control" placeholder="utm_campaign=&utm_source=cc&utm_medium=campaign&loginUserIdKey=$Subscriber.Custom.Loginkey">
+        </div>
+        <div class="form-group">
+            <p class="help-block">
+                Paste the (x)html code in the text area below, then click the magic button.<br />
+                <span class="text-danger">Note: you need to paste the full (x)html source.</span>
+            </p>
+            <textarea id="from" class="form-control" placeholder="Paste (x)html here." rows="10"></textarea>
+        </div>
+        <div class="form-group">
+            <button id="doit" class="btn btn-success btn-lg">Make Magic Happen</button>
+        </div>
+        <div class="form-group">
+            <textarea id="to" class="form-control" rows="10" placeholder="CC (x)html will be placed here."></textarea>
+        </div>
+    </form>
+</div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
