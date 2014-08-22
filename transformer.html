@@ -40,12 +40,13 @@
             var linkAppend = $("#linkappend").val();
 
             var replaceCallback = function(match, a, href) {
-                linkText = a.replace(/<a[^>]*>([\s\S]*)<\/a>/, "$1").trim().replace(/(<([^>]+)>)/ig,"");
+                labelText = a.replace(/<a[^>]*>([\s\S]*)<\/a>/, "$1").trim().replace(/(<([^>]+)>)/ig,"");
+                labelAttr = (labelText.length > 0) ? ' label="' + labelText + '"' : '';
                 imgMatch = a.match(/<img[^>]*src="([^"]+)"[^>]*>?/);
                 imgAttr = (imgMatch) ? ' img="' + imgMatch[1] + '"' : '';
                 href += href.indexOf('&') === -1 ? '?' : '&';
                 href += linkAppend;
-                return '<SimpleURLProperty href="' + href + '" name="mylink" track="true" label="' + linkText + '"' + imgAttr + '>' + a + '</SimpleURLProperty>';
+                return '<SimpleURLProperty href="' + href + '" name="mylink" track="true"' + labelAttr + imgAttr + '>' + a + '</SimpleURLProperty>';
             }
 
             final = html.replace(/(<a[^>]*(?:href=['"]([^'"]*)['"])[^>]*>(?:[\s\S]*?)(?:<\/a>))/mg, replaceCallback);
