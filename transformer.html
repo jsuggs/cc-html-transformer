@@ -43,7 +43,7 @@
                 linkText = a.replace(/<a[^>]*>([\s\S]*)<\/a>/, "$1").trim().replace(/(<([^>]+)>)/ig,"");
                 imgMatch = a.match(/<img[^>]*src="([^"]+)"[^>]*>?/);
                 imgAttr = (imgMatch) ? ' img="' + imgMatch[1] + '"' : '';
-
+                href += href.indexOf('&') === -1 ? '?' : '&';
                 href += linkAppend;
                 return '<SimpleURLProperty href="' + href + '" name="mylink" track="true" label="' + linkText + '"' + imgAttr + '>' + a + '</SimpleURLProperty>';
             }
