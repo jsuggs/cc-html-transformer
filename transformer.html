@@ -11,7 +11,7 @@
     <form role="form">
         <div class="form-group">
             <label for="linkappend">Append to all Links (do NOT include the leading ? or &amp;)</label>
-            <input id="linkappend" class="form-control" placeholder="utm_campaign=&utm_source=cc&utm_medium=campaign&loginUserIdKey=$Subscriber.Custom.Loginkey">
+            <input id="linkappend" class="form-control" value="utm_campaign=&utm_source=cc&utm_medium=campaign&loginUserIdKey=$Subscriber.Custom.Loginkey">
         </div>
         <div class="form-group">
             <p class="help-block">
@@ -39,34 +39,13 @@
             var html = $("#from").val();
             var linkAppend = $("#linkappend").val();
 
-            // Get just the text between the body tags (because jQuery gets all weird with html, head and body tags)
-            body = html.match(/<body[^>]*>[\s\S]*(.*)<\/body>/m)[0].trim();
-            body = body.substring(body.indexOf('>')+1);
-            body = body.substring(0, body.length - 7).trim();
-
-            // Get a jQuery object of the body html
-            var $from = $(body);
-
-            // wrap all of the a tags with the CC specific tags
-            $from.find('a').replaceWith(function() {
-                var $a = $($(this)[0].outerHTML);
-                href = $a.attr('href');
-                href += href.indexOf('&') == -1 ? '&' : '?';
+            var replaceCallback = function(match, a, href) {
+                href += href.indexOf('&') === -1 ? '?' : '&';
                 href += linkAppend;
-                $a.attr('href', href);
-                var $sup = $('<SimpleURLProperty>')
-                    .attr('name', 'mylink')
-                    .attr('track', true)
-                    .attr('label', 'bar')
-                    .attr('href', $a.attr('href'))
-                    .prepend($a[0].outerHTML)
-                ;
+                return '<SimpleURLProperty href="' + href + '" name="mylink" track="true">' + a + '</SimpleURLProperty>';
+            }
 
-              return $('<SimpleURLProperty>').append($sup.clone()).html();
-            });
-
-            // Replace back inside the body
-            final = html.replace(/<body([^>]*)>[\s\S]*(.*)<\/body>/m, '<body$1>' + $from[0].outerHTML + '</body>')
+            final = html.replace(/(<a[^>]*(?:href=['"]([^'"]*)['"])[^>]*>(?:[\s\S]*?)(?:<\/a>))/mg, replaceCallback);
 
             // Write back the final result
             $("#to").val(final);
